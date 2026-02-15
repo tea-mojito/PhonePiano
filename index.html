@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#1a1a1a" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="icon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="icon" href="icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="icon.png" />
   <title>phone stylophone</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:FILL@0..1" />
@@ -31,6 +31,7 @@
             <option value="sine">sine</option>
             <option value="square">square</option>
             <option value="sawtooth">saw</option>
+            <option value="theremin">theremin</option>
           </select>
         </div>
 
@@ -47,6 +48,9 @@
             <option value="c3c5">full</option>
           </select>
         </div>
+        <span class="icon-action theme-toggle-btn" role="button" tabindex="0" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <span class="material-symbols-rounded theme-toggle-icon" aria-hidden="true">dark_mode</span>
+        </span>
         <span id="reloadBtnTop" class="reload-btn-top" role="button" tabindex="0" aria-label="Reload" title="Reload">
           <span class="material-symbols-rounded" aria-hidden="true">refresh</span>
         </span>
@@ -147,6 +151,9 @@
           <span id="fullscreenPanelBtn" class="panel-mobile-btn" role="button" tabindex="0" aria-label="Fullscreen" title="Fullscreen">
             <span class="material-symbols-rounded" aria-hidden="true">fullscreen</span>
           </span>
+        <span class="icon-action theme-toggle-btn" role="button" tabindex="0" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <span class="material-symbols-rounded theme-toggle-icon" aria-hidden="true">dark_mode</span>
+        </span>
           <span id="reloadBtn" class="icon-action" role="button" tabindex="0" aria-label="Reload" title="Reload">
             <span class="material-symbols-rounded" aria-hidden="true">refresh</span>
           </span>

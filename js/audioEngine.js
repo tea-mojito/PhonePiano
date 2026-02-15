@@ -38,8 +38,20 @@ export function startNote(midi, velocity = 0.9) {
   const osc = audio.createOscillator();
   const gain = audio.createGain();
 
-  osc.type = synthType;
+  const isTheremin = synthType === "theremin";
+  osc.type = isTheremin ? "sine" : synthType;
   osc.frequency.value = freq;
+
+  let lfo = null;
+  if (isTheremin) {
+    lfo = audio.createOscillator();
+    const lfoGain = audio.createGain();
+    lfo.type = "sine";
+    lfo.frequency.value = 6;
+    lfoGain.gain.value = freq * 0.015;
+    lfo.connect(lfoGain).connect(osc.frequency);
+    lfo.start(now);
+  }
 
   const amp = Math.max(0.04, Math.min(1, velocity));
   gain.gain.setValueAtTime(0, now);
@@ -49,7 +61,7 @@ export function startNote(midi, velocity = 0.9) {
   osc.connect(gain).connect(masterGain);
   osc.start(now);
 
-  activeVoices.set(midi, { osc, gain });
+  activeVoices.set(midi, { osc, gain, lfo });
 }
 
 export function stopNote(midi) {
@@ -61,6 +73,7 @@ export function stopNote(midi) {
     voice.gain.gain.cancelScheduledValues(now);
     voice.gain.gain.setTargetAtTime(0.0001, now, 0.15);
     voice.osc.stop(now + 0.6);
+    if (voice.lfo) voice.lfo.stop(now + 0.6);
   } catch {
     // ignore
   }

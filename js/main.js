@@ -19,6 +19,7 @@ const TONE_STORAGE_KEY = "piano:tone";
 const VOLUME_STORAGE_KEY = "piano:volume";
 const KEY_HEIGHT_STORAGE_KEY = "piano:key-height-scale";
 const DESKTOP_RANGE_STORAGE_KEY = "piano:desktop-range";
+const THEME_STORAGE_KEY = "piano:theme";
 const KEY_HEIGHT_STEP = 1;
 const MOBILE_KEY_MIN_HEIGHT = 30;
 const INPUT_WINDOW_MIN_HEIGHT = 100;
@@ -78,6 +79,8 @@ const octaveUpBtnEl = document.getElementById("octaveUpBtn");
 const octaveResetBtnEl = document.getElementById("octaveResetBtn");
 const octaveDownBtnEl = document.getElementById("octaveDownBtn");
 const octaveShiftButtons = [octaveUpBtnEl, octaveResetBtnEl, octaveDownBtnEl].filter(Boolean);
+const themeToggleBtns = document.querySelectorAll(".theme-toggle-btn");
+const themeToggleIcons = document.querySelectorAll(".theme-toggle-icon");
 
 const midiToDots = new Map();
 const noteSources = new Map();
@@ -516,6 +519,52 @@ function persistDesktopRangeSelection() {
   }
 }
 
+function isDarkMode() {
+  return document.documentElement.classList.contains("dark");
+}
+
+function applyTheme(dark) {
+  document.documentElement.classList.toggle("dark", dark);
+  for (const icon of themeToggleIcons) {
+    icon.textContent = dark ? "light_mode" : "dark_mode";
+  }
+}
+
+function restoreTheme() {
+  try {
+    const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
+    if (stored === "dark" || stored === "light") {
+      applyTheme(stored === "dark");
+      return;
+    }
+  } catch {
+    // ignore storage errors
+  }
+  applyTheme(true);
+}
+
+function toggleTheme() {
+  const next = !isDarkMode();
+  applyTheme(next);
+  try {
+    window.localStorage.setItem(THEME_STORAGE_KEY, next ? "dark" : "light");
+  } catch {
+    // ignore storage errors
+  }
+}
+
+async function hardReload() {
+  try {
+    const keys = await caches.keys();
+    await Promise.all(keys.map((k) => caches.delete(k)));
+  } catch { /* ignore */ }
+  try {
+    const reg = await navigator.serviceWorker?.getRegistration();
+    await reg?.unregister();
+  } catch { /* ignore */ }
+  location.reload();
+}
+
 function syncVolumeIcon() {
   if (!volumeIconEl || !volEl) return;
   const volume = Number(volEl.value) || 0;
@@ -749,8 +798,11 @@ function setupUI() {
     handleFullscreenStateChange();
   });
   controlPopupBtn?.addEventListener("click", toggleControlPanelOpen);
-  reloadBtn?.addEventListener("click", () => window.location.reload());
-  reloadBtnTop?.addEventListener("click", () => window.location.reload());
+  for (const btn of themeToggleBtns) {
+    btn.addEventListener("click", toggleTheme);
+  }
+  reloadBtn?.addEventListener("click", hardReload);
+  reloadBtnTop?.addEventListener("click", hardReload);
 
   testBtn?.addEventListener("click", async () => {
     await ensureAudioStarted();
@@ -785,6 +837,7 @@ function setupUI() {
 }
 
 function init() {
+  restoreTheme();
   initKeyboardInteractionGate();
   syncDesktopOctaveShiftButtons();
   syncMobileTierCountVar();

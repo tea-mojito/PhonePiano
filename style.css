@@ -89,7 +89,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: var(--panel-width);
-  z-index: var(--panel-z);
+  z-index: 900;
   /* box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3); */
   display: flex;
   flex-direction: column;
@@ -162,15 +162,15 @@ body {
   left: var(--floating-btn-right);
   top: 50%;
   transform: translateY(-50%);
-  z-index: calc(var(--floating-btn-z-main) + 5);
+  z-index: 1;
   display: none;
   flex-direction: column;
   gap: 6px;
 }
 
 .octave-shift-btn {
-  min-width: 40px;
-  min-height: 28px;
+  min-width: 35px;
+  min-height: 35px;
 }
 
 .octave-shift-btn.is-active {
@@ -447,7 +447,7 @@ button:focus,
 .floating-key-btn--fullscreen{
   position: fixed;
   transform: none;
-  z-index: var(--floating-btn-z-sub);
+  z-index: 100;
   white-space: nowrap;
   width: var(--floating-btn-size);
   height: var(--floating-btn-size);
@@ -513,6 +513,11 @@ button:focus,
 }
 
 @media (max-width: 599px) {
+  .toolbar > .theme-toggle-btn{
+    display: none;
+  }
+
+
   .reload-btn-top {
     display: none !important;
   }
@@ -530,7 +535,7 @@ button:focus,
     width: var(--panel-inline-width);
     min-width: var(--panel-inline-width);
     max-width: var(--panel-inline-width);
-    z-index: calc(var(--floating-btn-z-main) + 20);
+    z-index: 100;
   }
 
   .top-control-panel {
@@ -711,41 +716,39 @@ button:focus,
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1a1a1a;
-    --surface: #2d2d2d;
-    --text: #e8eaed;
-    --muted: #9aa0a6;
-    --border: #3c4043;
-    --accent: #8ab4f8;
-    --danger: #f28b82;
-    --danger-bg: #3c2020;
-    --danger-border: #c5221f;
-    --danger-hover: #ee675c;
-    --logwnd: #0a1a0a;
-    --logtxt: #e0e0e0;
-    --color-key-white: #3c4043;
-    --color-key-black: #28292b;
-    --color-key-active-white: #394457;
-    --color-key-active-black: #2d3a4d;
-  }
+html.dark {
+  --bg: #1a1a1a;
+  --surface: #2d2d2d;
+  --text: #e8eaed;
+  --muted: #9aa0a6;
+  --border: #616161;
+  --accent: #8ab4f8;
+  --danger: #f28b82;
+  --danger-bg: #3c2020;
+  --danger-border: #c5221f;
+  --danger-hover: #ee675c;
+  --logwnd: #0a1a0a;
+  --logtxt: #e0e0e0;
+  --color-key-white: #303035;
+  --color-key-black: #242427;
+  --color-key-active-white: #b38900;
+  --color-key-active-black: #b38900;
+}
 
-  input,
-  select {
-    background: var(--surface);
-    color: var(--text);
-    border-color: var(--border);
-  }
+html.dark input,
+html.dark select {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
 
-  button {
-    background: var(--surface);
-    color: var(--text);
-    border-color: var(--border);
-  }
+html.dark button {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
 
-  .octave-shift-btn.is-active {
-    background: #3c4043;
-    color: var(--muted);
-  }
+html.dark .octave-shift-btn.is-active {
+  background: #3c4043;
+  color: var(--muted);
 }

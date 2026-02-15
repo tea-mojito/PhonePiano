@@ -6,7 +6,7 @@ const ASSETS = [
   "./js/main.js",
   "./js/audioEngine.js",
   "./js/midi.js",
-  "./icon.svg",
+  "./icon.png",
   "./manifest.json"
 ];
 
