@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>phone stylophone</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:FILL@0..1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <div class="octave-shift-panel" aria-label="Octave shift">
+      <button id="octaveUpBtn" class="octave-shift-btn" type="button" data-shift="1">+1</button>
+      <button id="octaveResetBtn" class="octave-shift-btn" type="button" data-shift="0">0</button>
+      <button id="octaveDownBtn" class="octave-shift-btn" type="button" data-shift="-1">-1</button>
+    </div>
+    <header class="top-control-panel collapsed" id="topControlPanel">
+      <div id="topControlsMount">
+      <div class="toolbar" id="soundControls">
+        <div class="toolbar-item">
+          <label class="icon-label" for="waveSel" aria-label="Tone" title="Tone">
+            <span class="material-symbols-rounded" aria-hidden="true">music_note</span>
+          </label>
+          <select id="waveSel" class="sel">
+            <option value="triangle" selected>triangle</option>
+            <option value="sine">sine</option>
+            <option value="square">square</option>
+            <option value="sawtooth">saw</option>
+          </select>
+        </div>
+
+        <div class="toolbar-item">
+          <span id="muteBtn" class="icon-label" role="button" tabindex="0" aria-label="Mute" title="Mute">
+            <span id="volumeIcon" class="material-symbols-rounded" aria-hidden="true">volume_up</span>
+          </span>
+          <input id="vol" class="vol" type="range" min="0" max="1" step="0.01" value="1" />
+        </div>
+        <div class="desktop-mode-item">
+          <label class="label" for="desktopRangeSel">mode</label>
+          <select id="desktopRangeSel" class="sel">
+            <option value="c4c6" selected>comfort</option>
+            <option value="c3c5">full</option>
+          </select>
+        </div>
+        <span id="reloadBtnTop" class="reload-btn-top" role="button" tabindex="0" aria-label="Reload" title="Reload">
+          <span class="material-symbols-rounded" aria-hidden="true">refresh</span>
+        </span>
+      </div>
+      </div>
+    </header>
+
+    <div id="inputWindow" class="input-window"></div>
+
+    <main class="piano-area" id="pianoArea">
+      <button id="startOverlay" class="start-overlay" type="button" aria-label="Tap to start">Tap to start</button>
+      <section class="keyboard-tier" id="tierLow" data-tier="low">
+        <span id="controlPopupBtn" class="floating-key-btn--control" role="button" tabindex="0" aria-expanded="false">≡</span>
+        <div class="kb" id="kbLow">
+          <div class="black-row" id="kbLowBlack"></div>
+          <div class="white-row" id="kbLowWhite"></div>
+        </div>
+      </section>
+
+      <section class="keyboard-tier" id="tierHigh" data-tier="high">
+        <span id="fullscreenBtn" class="floating-key-btn--fullscreen" role="button" tabindex="0" aria-label="Fullscreen" title="Fullscreen">
+          <span class="material-symbols-rounded" aria-hidden="true">fullscreen</span>
+        </span>
+        <span id="panicFloatingBtn" class="floating-key-btn--panic-danger" role="button" tabindex="0" aria-label="Panic" title="Panic">
+          <span class="material-symbols-rounded" aria-hidden="true">warning</span>
+        </span>
+        <div class="kb" id="kbHigh">
+          <div class="black-row" id="kbHighBlack"></div>
+          <div class="white-row" id="kbHighWhite"></div>
+        </div>
+      </section>
+
+      <section class="keyboard-tier" id="tierThird" data-tier="third" style="display:none">
+        <div class="kb" id="kbThird">
+          <div class="black-row" id="kbThirdBlack"></div>
+          <div class="white-row" id="kbThirdWhite"></div>
+        </div>
+      </section>
+
+      <section class="keyboard-tier" id="tierFourth" data-tier="fourth" style="display:none">
+        <div class="kb" id="kbFourth">
+          <div class="black-row" id="kbFourthBlack"></div>
+          <div class="white-row" id="kbFourthWhite"></div>
+        </div>
+      </section>
+
+      <section class="keyboard-tier" id="tierFifth" data-tier="fifth" style="display:none">
+        <div class="kb" id="kbFifth">
+          <div class="black-row" id="kbFifthBlack"></div>
+          <div class="white-row" id="kbFifthWhite"></div>
+        </div>
+      </section>
+
+      <section class="bottom-control-panel collapsed" id="bottomControlPanel">
+        <div class="bottom-toolbar-sound" id="mobileSoundControlsMount"></div>
+        <div class="bottom-toolbar-midi">
+          <button id="midiBtn" type="button">MIDI</button>
+          <button id="testBtn" type="button">TEST</button>
+
+          <div class="toolbar-item">
+          <label class="label" for="midiInputSel">Input</label>
+          <select id="midiInputSel" class="sel"><option value="">-</option></select>
+          </div>
+          <div class="toolbar-item">
+          <label class="label" for="midiChSel">Ch</label>
+          <select id="midiChSel" class="sel-ch">
+            <option value="0">All</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+          </select>
+          </div>
+
+        </div>
+        <div class="bottom-toolbar-actions">
+          <div class="mobile-keyheight-control">
+            <label class="icon-label" for="keyHeightScale" aria-label="Key Height" title="Key Height">
+              <span class="material-symbols-rounded" aria-hidden="true">height</span>
+            </label>
+            <input id="keyHeightScale" type="range" min="30" max="1000" step="1" value="30" />
+          </div>
+          <span id="panicPanelBtn" class="panel-mobile-btn-danger" role="button" tabindex="0" aria-label="Panic" title="Panic">
+            <span class="material-symbols-rounded" aria-hidden="true">warning</span>
+          </span>
+          <span id="fullscreenPanelBtn" class="panel-mobile-btn" role="button" tabindex="0" aria-label="Fullscreen" title="Fullscreen">
+            <span class="material-symbols-rounded" aria-hidden="true">fullscreen</span>
+          </span>
+          <span id="reloadBtn" class="icon-action" role="button" tabindex="0" aria-label="Reload" title="Reload">
+            <span class="material-symbols-rounded" aria-hidden="true">refresh</span>
+          </span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
