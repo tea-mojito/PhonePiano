@@ -1,6 +1,6 @@
 {
-  "name": "Phone Piano",
-  "short_name": "Piano",
+  "name": "PhonePiano",
+  "short_name": "PhonePiano",
   "start_url": ".",
   "display": "standalone",
   "orientation": "any",
