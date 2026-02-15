@@ -87,8 +87,17 @@ function refreshInputList(statusEl, inputSel) {
 
   if (inputSel) {
     const prevValue = inputSel.value;
-    inputSel.innerHTML = '<option value="">-</option>' +
-      inputs.map((input) => `<option value="${input.id}">${input.name || input.id}</option>`).join("");
+    while (inputSel.firstChild) inputSel.removeChild(inputSel.firstChild);
+    const defaultOpt = document.createElement("option");
+    defaultOpt.value = "";
+    defaultOpt.textContent = "-";
+    inputSel.appendChild(defaultOpt);
+    for (const input of inputs) {
+      const opt = document.createElement("option");
+      opt.value = input.id;
+      opt.textContent = input.name || input.id;
+      inputSel.appendChild(opt);
+    }
     inputSel.value = inputs.some((input) => input.id === prevValue) ? prevValue : "";
   }
 

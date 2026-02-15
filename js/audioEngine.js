@@ -1,7 +1,7 @@
 const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
 export const audio = new AudioContextCtor();
 export const masterGain = audio.createGain();
-masterGain.gain.value = 1;
+masterGain.gain.setValueAtTime(1, audio.currentTime);
 masterGain.connect(audio.destination);
 
 const activeVoices = new Map();
@@ -27,7 +27,7 @@ export function setSynthType(type) {
 
 export function setMasterVolume(value) {
   const v = Math.max(0, Math.min(1, Number(value)));
-  masterGain.gain.value = v;
+  masterGain.gain.setTargetAtTime(v, audio.currentTime, 0.02);
 }
 
 export function startNote(midi, velocity = 0.9) {
@@ -59,8 +59,8 @@ export function stopNote(midi) {
   const now = audio.currentTime;
   try {
     voice.gain.gain.cancelScheduledValues(now);
-    voice.gain.gain.setTargetAtTime(0.0001, now, 0.05);
-    voice.osc.stop(now + 0.15);
+    voice.gain.gain.setTargetAtTime(0.0001, now, 0.15);
+    voice.osc.stop(now + 0.6);
   } catch {
     // ignore
   }

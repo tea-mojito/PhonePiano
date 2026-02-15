@@ -710,3 +710,42 @@ button:focus,
     /* --piano-area-height: 0px; */
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1a1a;
+    --surface: #2d2d2d;
+    --text: #e8eaed;
+    --muted: #9aa0a6;
+    --border: #3c4043;
+    --accent: #8ab4f8;
+    --danger: #f28b82;
+    --danger-bg: #3c2020;
+    --danger-border: #c5221f;
+    --danger-hover: #ee675c;
+    --logwnd: #0a1a0a;
+    --logtxt: #e0e0e0;
+    --color-key-white: #3c4043;
+    --color-key-black: #28292b;
+    --color-key-active-white: #394457;
+    --color-key-active-black: #2d3a4d;
+  }
+
+  input,
+  select {
+    background: var(--surface);
+    color: var(--text);
+    border-color: var(--border);
+  }
+
+  button {
+    background: var(--surface);
+    color: var(--text);
+    border-color: var(--border);
+  }
+
+  .octave-shift-btn.is-active {
+    background: #3c4043;
+    color: var(--muted);
+  }
+}
